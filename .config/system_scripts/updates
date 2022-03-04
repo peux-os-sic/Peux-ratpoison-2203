@@ -1,0 +1,13 @@
+#!/bin/bash
+
+updates=`checkupdates | wc -l`
+
+if [[ $(checkupdates | wc -l) != 0 ]]
+then
+    #echo "$updates Update(s)"
+    notify-send "$updates Update(s) are available. Run 'yay -Syu' manually to upgrade your system"
+else
+    echo ""
+fi
+
+sleep 1800

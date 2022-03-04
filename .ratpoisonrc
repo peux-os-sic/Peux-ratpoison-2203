@@ -1,0 +1,159 @@
+############################################################################################
+
+## ratpoison is a tiling window manager for the X Window System
+## primarily developed by Shawn Betts.
+
+## This is Peux OS Ratpoison -- System Config
+
+############################################################################################
+
+
+############################################################################################
+#### REMOVE THIS SECTION TO STOP THE WELCOME APP ON STARTUP ####
+exec bash /usr/local/bin/welcomeapp
+
+
+#### REMOVE THIS SECTION AFTER INSTALLATION ####
+bind C-c exec sudo calamares
+############################################################################################
+
+# setting the escape key to the Windows key
+escape Super_L
+
+# compositor
+xcompmgr -CcfF -I-.015 -O-.03 -D6 -t-1 -l-3 -r4.2 -o.5 &
+#exec picom -b --config ~/.config/picom/picom.conf --experimental-backends
+
+# set pointer
+exec xsetroot -cursor_name left_ptr
+
+# mouse follow focus
+#exec /usr/share/ratpoison/sloppy
+
+# workspaces
+exec /usr/bin/rpws init 4 -k
+
+alias one exec rpws 1
+alias two exec rpws 2
+alias three exec rpws 3
+alias four exec rpws 4
+alias Left exec rpwsp
+alias Right exec rpwsn
+
+definekey top C-1 one
+definekey top C-2 two
+definekey top C-3 three
+definekey top C-4 four
+definekey top C-M-Left Left
+definekey top C-M-Right Right
+
+# restart Ratpoison
+bind q restart
+
+# quit Ratpoison
+bind e quit
+
+# Power Options
+alias reb exec systemctl reboot
+alias pow exec systemctl poweroff
+alias hib exec systemctl hibernate
+alias sus exec systemctl suspend
+
+definekey top C-M-r reb
+definekey top C-M-p pow
+definekey top C-M-h hib
+definekey top C-M-s sus
+
+# auto-lock
+exec xautolock -time 5 -locker ~/.config/system_scripts/session_lock &
+
+# lock
+alias lock exec bash $HOME/.config/system_scripts/session_lock
+definekey top C-M-l lock
+
+# wm customs
+set winname title
+set wingravity center
+set transgravity center
+set border 5
+#set barborder 3
+set padding 10 10 10 10
+#set barpadding 5
+set inputwidth 2000
+
+# rpbar 
+# [uncomment below lines to get a bar on your desktop]
+# unmanage rpbar
+# exec rpbar
+
+# hooks
+# addhook switchwin exec rpbarsend
+# addhook switchframe exec rpbarsend
+# addhook switchgroup exec rpbarsend
+# addhook deletewindow exec rpbarsend
+
+# RP versions >= 1.4.6 (from the git repo) have these hooks.
+# Recommended!
+# addhook titlechanged exec rpbarsend
+# addhook newwindow exec rpbarsend
+
+# dedicate frame [ on/off ]
+bind C-d dedicate
+
+# rudeness is a bitwise or of the following values:
+# 1    Transient windows may raise.
+# 2    Normal windows may raise.
+# 4    New transient windows end up in the foreground.
+# 8    New normal windows end up in the foreground.
+
+rudeness 13
+warp on
+
+# battery [enable for systems that has battery]
+#exec bash $HOME/.config/system_scripts/ratcpi
+
+# background and updates
+exec bash $HOME/.config/system_scripts/pkill_proc &
+exec bash $HOME/.config/system_scripts/updates &
+
+# audio
+alias playpause exec volume pause
+alias aprev exec volume previous
+alias anext exec volume next
+alias amute exec volume mute
+alias raiseVol exec volume up
+alias lowVol exec volume down
+
+
+definekey top XF86AudioPlay playpause
+definekey top XF86AudioPrev aprev
+definekey top XF86AudioNext anext
+definekey top XF86AudioMute amute
+definekey top XF86AudioRaiseVolume raiseVol
+definekey top XF86AudioLowerVolume lowVol
+
+
+# brightness
+alias bup exec brightness up
+alias bdown exec brightness down
+
+definekey top XF86MonBrightnessUp bup
+definekey top XF86MonBrightnessDown bdown
+
+# launch_apps
+bind f exec firefox
+bind b exec bluemail
+bind t exec alacritty
+bind h exec pcmanfm-qt
+
+# rofi launcher
+bind d exec rofi -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/rat_rofi.rasi
+
+# date and time
+bind c exec gsimplecal
+
+# screenshot
+alias sshot exec scrot ~/Pictures/scrot_ratpoison-`date +%F`.png
+bind Print sshot
+
+
